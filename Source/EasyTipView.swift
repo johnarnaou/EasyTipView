@@ -124,8 +124,7 @@ public extension EasyTipView {
      */
     func show(animated: Bool = true, forView view: UIView, withinSuperview superview: UIView? = nil) {
         
-        precondition(superview == nil || view.hasSuperview(superview!), "The supplied superview <\(superview!)> is not a direct nor an indirect superview of the supplied reference view <\(view)>. The superview passed to this method should be a direct or an indirect superview of the reference view. To display the tooltip within the main window, ignore the superview parameter.")
-        
+        guard superview == nil || view.hasSuperview(superview!) else { return }
         let superview = superview ?? UIApplication.shared.windows.first!
         
         let initialTransform = preferences.animating.showInitialTransform
@@ -496,7 +495,7 @@ open class EasyTipView: UIView {
         }
         
         if case .view(let contentView) = content {
-            contentView.translatesAutoresizingMaskIntoConstraints = false
+            //contentView.translatesAutoresizingMaskIntoConstraints = false
             contentView.frame = getContentRect(from: getBubbleFrame())
         }
         
